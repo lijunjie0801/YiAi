@@ -1,0 +1,53 @@
+//
+//  PrefixHeader.pch
+//  YiAi
+//
+//  Created by zlkj on 2017/6/6.
+//  Copyright © 2017年 zlkj. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "UIView+AutoLayout.h"
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define kScreen_Height [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+#define HEIGHT [UIScreen mainScreen].bounds.size.height
+#define WIDTH   [UIScreen mainScreen].bounds.size.width
+#define DEFAULTS [NSUserDefaults standardUserDefaults]
+//十六进制颜色
+#define RGB(a,b,c) [UIColor colorWithRed:(a/255.0) green:(b/255.0) blue:(c/255.0) alpha:1.0]
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#define showAlert(msg) [[[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+#define KBaseWebURL  @"http://www.eifire.net:9010/EIFIRE_Interface.asmx"
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "Masonry.h"
+#import "Utility.h"
+#import "MJRefresh.h"
+#import "MyAdapter.h"
+#import "JRToast.h"
+#import "SwitchViewController.h"
+#import "AppAppearance.h"
+#import "UIImage+ImageFromColor.h"
+#import "UIImageView+WebCache.h"
+#import "AppDataManager.h"
+#import "MJExtension.h"
+#import "RequestManager.h"
+#import "URLManager.h"
+#import "UITabBar+CustomBadge.h"
+#import "IQKeyboardManager.h"
+#import "MBProgressHUD.h"
+#import "ActionSheetPicker-3.0/ActionSheetPicker.h"
+#import "UIColor+ColorChange.h"
+#endif
+
+
+
+#endif /* PrefixHeader_pch */
