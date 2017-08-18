@@ -205,11 +205,8 @@
         }
         for (UIView *view in cell.contentView.subviews) {
             if (view.tag == zheTag) {
-//                if (model.isOpen==YES) {
-//                    ((UIImageView *)view).image=[UIImage imageNamed:@"xia"];
-//                }else{
+
                     ((UIImageView *)view).image=[UIImage imageNamed:@"zhejiao"];
-              //  }
                 ((UIImageView *)view).frame = CGRectMake(15 + (model.level - 1) * 5 , 12, 20, 20);
                 
             }
