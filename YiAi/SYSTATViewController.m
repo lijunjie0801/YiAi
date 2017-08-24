@@ -203,7 +203,7 @@
 
     }
     [cell.btn setImage:[UIImage imageNamed:imgName] forState:UIControlStateNormal];
-
+    cell.numlbl.hidden=YES;
     
     nibri=NO;
     return cell;

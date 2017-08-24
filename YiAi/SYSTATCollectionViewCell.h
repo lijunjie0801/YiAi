@@ -14,5 +14,6 @@
 
 @property(nonatomic, strong) UIButton *btn;
 @property(nonatomic, strong) UILabel *lab;
+@property(nonatomic, strong)UILabel *numlbl;
 
 @end

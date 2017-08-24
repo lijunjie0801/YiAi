@@ -19,11 +19,19 @@
 @property(nonatomic, strong) NSArray *SectionsArray;
 @property(nonatomic, strong) NSArray *itemsArray;
 @property(nonatomic, strong) NSArray *itemsIcons;
+@property(nonatomic, strong) NSMutableArray *messageNums;
 @property(nonatomic, strong) NSString *proname;
+//火警，水系统，通讯故障，故障，屏蔽，动作反馈
+@property(nonatomic, strong) UILabel *fireLbl,*waterLbl,*comfaultLbl,*faultLbl,*shieldLbl,*cotionFeedbackLbl;
 @end
 
 @implementation HomeDetailViewController
-
+-(NSMutableArray *)messageNums{
+    if (!_messageNums) {
+        _messageNums =[NSMutableArray array];
+    }
+    return _messageNums;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -63,7 +71,7 @@
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     self.title=self.proname;
- 
+    [self requestMessageNumData];
 }
 
 -(void)setIntentDic:(NSDictionary *)intentDic{
@@ -84,8 +92,6 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     static BOOL nibri =NO;
     if(!nibri){
         
@@ -94,12 +100,19 @@
     }
     
     SYSTATCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:systatCellIdentifier forIndexPath:indexPath];
-    
-//    [cell.btn setTitle:self.itemsArray[indexPath.section][indexPath.row] forState:UIControlStateNormal];
     [cell.btn setImage:[UIImage imageNamed:_itemsIcons[indexPath.section][indexPath.row]] forState:UIControlStateNormal];
     cell.lab.text=self.itemsArray[indexPath.section][indexPath.row];
-    
-    
+    if (indexPath.section!=1) {
+        cell.numlbl.hidden=YES;
+    }else{
+        NSString *num=_messageNums[indexPath.row];
+        if ([num intValue]>0) {
+            cell.numlbl.hidden = NO;
+            cell.numlbl.text = num;
+        }else{
+           cell.numlbl.hidden = YES;
+        }
+    }
     nibri=NO;
     return cell;
     
@@ -315,15 +328,53 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+//获取消息的数目
+-(void)requestMessageNumData
+{
+    
+    if ([AppDataManager defaultManager].hasLogin) {
+        NSDictionary *param = @{@"appKey":[AppDataManager defaultManager].identifier,@"proCode":self.procode};
+        [RequestManager postRequestWithURLPath:[URLManager requestURLGenetatedWithURL:KURLHomeMessageNum] withParamer:param completionHandler:^(id responseObject) {
+            NSDictionary *dic = (NSDictionary *)responseObject;
+            NSLog(@"消息的数目===%@",dic);
+            dic = dic[@"datas"][@"indexAlarmNums"][@"AlarmListNums"];
+            
+            //火警数量
+            NSString *fireCount = dic[@"fireCount"];
+            
+            //水警数量
+            NSString *waterCount = dic[@"waterCount"];
+            
+            //通讯故障
+            NSString *comFaultCount = dic[@"comFaultCount"];
+            //故障
+            NSString *faultCount = dic[@"faultCount"];
 
-/*
-#pragma mark - Navigation
+            //屏蔽
+            NSString *shieldCount = dic[@"shieldCount"];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+            //动作反馈
+            NSString *cotionFeedbackCount = dic[@"cotionFeedbackCount"];
+            
+            NSMutableArray *array=[NSMutableArray array];
+            [array addObject:fireCount];
+            [array addObject:faultCount];
+            [array addObject:waterCount];
+            [array addObject:comFaultCount];
+            [array addObject:shieldCount];
+            [array addObject:cotionFeedbackCount];
+            _messageNums=[array mutableCopy];
+            [_svc hideLoadingView];
+            [self.goodCollectionView reloadData];
+            
+        } failureHandler:^(NSError *error, NSUInteger statusCode) {
+            [_svc hideLoadingView];
+            [_svc showMessage:error.domain];
+        }];
+        
+        
+    }
 }
-*/
+
 
 @end

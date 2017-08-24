@@ -23,6 +23,7 @@
     self.tableview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) style:UITableViewStylePlain];
     _tableview.delegate=self;
     _tableview.dataSource=self;
+    _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.view=_tableview;
 
     [self getListData];

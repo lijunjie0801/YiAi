@@ -137,6 +137,7 @@
     if (current<min) {
         du=0;
     }else if(current>max){
+        //self.progressView.trackColor=[UIColor redColor];
         du=1;
     }else{
         du=(current-min)/(max-min);

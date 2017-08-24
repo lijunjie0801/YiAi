@@ -32,6 +32,8 @@
         self.lab=[[UILabel alloc]init];
         [self addSubview:self.lab];
         
+        self.numlbl = [[UILabel alloc] init];
+          [self addSubview:self.numlbl];
         
     }
     return self;
@@ -48,8 +50,16 @@
     self.lab.frame=CGRectMake(0, self.bounds.size.width-30, self.bounds.size.width, 20);
     self.lab.textAlignment=NSTextAlignmentCenter;
     self.lab.font=[UIFont systemFontOfSize:12];
-//    self.btn.titleEdgeInsets = UIEdgeInsetsMake(10, -[MyAdapter aDapter:60], -[MyAdapter aDapter:60], -[MyAdapter aDapter:5]);
-//    self.btn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    
+   
+    _numlbl.frame = CGRectMake(self.bounds.size.width-18,0, 16, 16);
+    _numlbl.layer.cornerRadius = 8;
+    _numlbl.backgroundColor = [AppAppearance sharedAppearance].redColor;
+    _numlbl.textAlignment = NSTextAlignmentCenter;
+    _numlbl.clipsToBounds = YES;
+    _numlbl.font = [UIFont systemFontOfSize:10];
+    _numlbl.textColor = [AppAppearance sharedAppearance].whiteColor;
+
     
 }
 
